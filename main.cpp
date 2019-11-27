@@ -8,9 +8,8 @@
 
 using namespace std;
 
-string removeSpaces(string str);
-void tratarAVariavel(string& palavra);
 void carregarArquivo(vector<string>& lista);
+bool tratarAVariavel(string& palavra,bool semEspaco=false,bool ordenar=false);
 string pegaLetras(string expressao);
 string tiraEspacoEOrdena(string expressao);
 vector<string> checarAnagramas(vector<string> lista,string expressao,string letras);
@@ -23,17 +22,33 @@ int main() {
 	cout << "Digite uma palavra ou frase de ate 16 letras: " << endl;
 	string palavra;
 	getline(cin, palavra);
-    if (tratarAVariavel(palavra)){
-      string letras=pegaLetras(palavra);
-      vector<string> anagramas;
-      anagramas=checarAnagramas(lista,palavra,letras);
-      string tiraEspacoEOrdena(string expressao);
-      cout<<palavra<<endl;
-      for (int i=0;i<anagramas.size();i++){
+	if (tratarAVariavel(palavra)){
+		string letras=pegaLetras(palavra);
+    vector<string> anagramas;
+    anagramas=checarAnagramas(lista,palavra,letras);
+    string tiraEspacoEOrdena(string expressao);
+    cout<<palavra<<endl;
+    for (int i=0;i<anagramas.size();i++){
       cout<<anagramas[i]<<endl;
-      }
     }
+  }
 	return 0;
+}
+
+void carregarArquivo(vector<string>& lista) {
+	int count;
+	ifstream inputFile;
+	count = 0;
+	inputFile.open("palavras.txt");
+	string steam;
+	if (!inputFile) {
+		cout << "Arquivo nï¿½o encontrado!";
+	}
+	while (!inputFile.eof()) {
+		inputFile >> steam;
+		lista.push_back(steam);
+	}
+	inputFile.close();
 }
 
 bool tratarAVariavel(string& palavra) {
@@ -48,22 +63,6 @@ bool tratarAVariavel(string& palavra) {
 		palavra = palavra.erase(16);
 	}
 	return true;
-}
-
-void carregarArquivo(vector<string>& lista) {
-	int count;
-	ifstream inputFile;
-	count = 0;
-	inputFile.open("palavras.txt");
-	string steam;
-	if (!inputFile) {
-		cout << "Arquivo não encontrado!";
-	}
-	while (!inputFile.eof()) {
-		inputFile >> steam;
-		lista.push_back(steam);
-	}
-	inputFile.close();
 }
 
 string pegaLetras(string expressao){
@@ -96,9 +95,8 @@ string tiraEspacoEOrdena(string expressao){
 vector<string> checarAnagramas(vector<string> lista,string expressao,string letras){
   vector<string> palavrasSelecionadas;
   for (int i=0;i<lista.size();i++){
-    string checagem=lista[i];
+		string checagem=lista[i];
     string ltrsAnagram = pegaLetras(lista[i]);
-    string quantLtrsAnag = quantidadeLetras(lista[i],ltrsAnagram);
     int count=0;
     for (int j=0;j<checagem.length();j++){
       for (int k=0;k<letras.length();k++){
@@ -116,21 +114,21 @@ vector<string> checarAnagramas(vector<string> lista,string expressao,string letr
   string anagrama;
   for (int i=0;i<palavrasSelecionadas.size();i++){
     anagrama=palavrasSelecionadas[i];
-      for (int j=0;j<palavrasSelecionadas.size();j++){
-        if ((anagrama.length()+palavrasSelecionadas[j].length())==expressao.length()){
-          result+=" "+palavrasSelecionadas[j];
-          palavrasAnagramas.push_back(result);
-          anagrama=palavrasSelecionadas[i];
-          result=palavrasSelecionadas[i];
-        } else if ((anagrama.length()+palavrasSelecionadas[j].length())<expressao.length()){
-          result= anagrama + " " +palavrasSelecionadas[j];
-          anagrama+=palavrasSelecionadas[j];
-        } else{
-          anagrama=palavrasSelecionadas[i];
-          result=palavrasSelecionadas[i];
-        }
+		for (int j=0;j<palavrasSelecionadas.size();j++){
+      if ((anagrama.length()+palavrasSelecionadas[j].length())==expressao.length()){
+        result+=" "+palavrasSelecionadas[j];
+        palavrasAnagramas.push_back(result);
+        anagrama=palavrasSelecionadas[i];
+        result=palavrasSelecionadas[i];
+      } else if ((anagrama.length()+palavrasSelecionadas[j].length())<expressao.length()){
+        result= anagrama + " " +palavrasSelecionadas[j];
+        anagrama+=palavrasSelecionadas[j];
+      } else{
+        anagrama=palavrasSelecionadas[i];
+        result=palavrasSelecionadas[i];
       }
     }
+  }
   palavrasSelecionadas.clear();
   string palavra1 = tiraEspacoEOrdena(expressao);
   for (int i=0;i<palavrasAnagramas.size();i++){
