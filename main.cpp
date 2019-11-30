@@ -9,7 +9,7 @@
 using namespace std;
 
 void carregarArquivo(vector<string>& lista);
-bool tratarAVariavel(string& palavra,bool semEspaco=false,bool ordenar=false);
+bool tratarAVariavel(string& palavra);
 string pegaLetras(string expressao);
 string tiraEspacoEOrdena(string expressao);
 vector<string> checarAnagramas(vector<string> lista,string expressao,string letras);
