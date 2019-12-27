@@ -42,7 +42,7 @@ void carregarArquivo(vector<string>& lista) {
 	inputFile.open("palavras.txt");
 	string steam;
 	if (!inputFile) {
-		cout << "Arquivo n�o encontrado!";
+		cout << "Arquivo nao encontrado!";
 	}
 	while (!inputFile.eof()) {
 		inputFile >> steam;
@@ -114,7 +114,7 @@ vector<string> checarAnagramas(vector<string> lista,string expressao,string letr
   string anagrama;
   for (int i=0;i<palavrasSelecionadas.size();i++){
     anagrama=palavrasSelecionadas[i];
-		for (int j=0;j<palavrasSelecionadas.size();j++){
+		for (int j=i;j<palavrasSelecionadas.size();j++){
       if ((anagrama.length()+palavrasSelecionadas[j].length())==expressao.length()){
         result+=" "+palavrasSelecionadas[j];
         palavrasAnagramas.push_back(result);
@@ -123,6 +123,7 @@ vector<string> checarAnagramas(vector<string> lista,string expressao,string letr
       } else if ((anagrama.length()+palavrasSelecionadas[j].length())<expressao.length()){
         result= anagrama + " " +palavrasSelecionadas[j];
         anagrama+=palavrasSelecionadas[j];
+				j-=1;
       } else{
         anagrama=palavrasSelecionadas[i];
         result=palavrasSelecionadas[i];
